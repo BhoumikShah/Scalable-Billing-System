@@ -1,0 +1,709 @@
+:root {
+  --bg: #f6f8fa;
+  --panel: #ffffff;
+  --accent: #0066cc;
+  --muted: #666;
+  --success: #0a7;
+  --left-width: 300px; /* explicit left column width used for spacing */
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Segoe UI, Roboto, Arial, sans-serif;
+}
+body {
+  margin: 0;
+  padding: 12px;
+  background: var(--bg);
+  color: #111;
+}
+header {
+  margin-bottom: 18px;
+}
+
+/* Site header styling */
+.site-header {
+  background: linear-gradient(180deg, #f8fbfe, transparent);
+  padding: 18px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+h1 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--accent);
+  font-weight: 800;
+}
+.tag {
+  font-weight: 600;
+  color: #0b79d0;
+  font-size: 14px;
+  margin-left: 6px;
+}
+.subtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+/* layout: wider sidebar for less cramping */
+.panel {
+  transition: box-shadow 0.12s ease, transform 0.06s ease;
+}
+/* main three-column layout: left widgets, customers table (middle), invoice/right
+    Constrain overall width to avoid panels overlapping on narrow screens. Middle column is flexible. */
+/* Use full width so the left column can utilize available space on wide screens.
+    Left column is larger to comfortably host the Add Customer form. */
+/* left: fixed-ish width; middle: flexible but with smaller min so it doesn't push into left; right: fixed */
+main {
+  display: grid;
+  grid-template-columns: var(--left-width) minmax(380px, 1fr) 320px;
+  gap: 18px;
+  align-items: start;
+  width: 100%;
+  padding: 8px 18px 24px 18px;
+  min-height: calc(100vh - 140px);
+}
+
+/* left widgets container (stacked to reduce horizontal clutter) */
+customerItem .btns {
+  display: flex;
+  gap: 6px;
+}
+
+/* compact buttons for tighter list */
+button.small {
+  padding: 4px 6px;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
+/* Form rows: two-column grid for Add Customer to avoid inputs forcing width */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.form-row label {
+  margin: 6px 0;
+  display: flex;
+  flex-direction: column;
+}
+.form-row label,
+.form-row input,
+.form-row select {
+  min-width: 0;
+}
+.form-row input,
+.form-row select {
+  max-width: 100%;
+  width: 100%;
+}
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+.panel {
+  background: var(--panel);
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.list {
+  max-height: calc(80vh - 160px);
+  overflow: auto;
+  border: 1px solid #eee;
+  padding: 6px;
+  border-radius: 6px;
+  background: #fff;
+}
+
+/* Cleaned stylesheet for the frontend UI — consolidated variables and base rules */
+
+/* Make Load Test and Selected Customer panels use the same stacked form layout
+   as Add Customer: labels above inputs, consistent gaps and full-width inputs. */
+.panel-body label,
+.panel-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.panel-body input,
+.panel-body select,
+.panel-card input,
+.panel-card select,
+.left-widgets input,
+.left-widgets select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Panel cards inside the right column should have consistent spacing and look */
+.panel-card {
+  background: var(--panel);
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.02) inset;
+}
+
+/* Stack panel-row vertically (transaction and discount) with the same gap as left widgets */
+.panel-row {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Slightly increase padding in selected area so content breathes like the left column */
+.right-col .panel {
+  padding: 14px;
+}
+
+/* Panel titles for non-collapsible left widgets */
+.panel-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.panel-header {
+  margin-bottom: 6px;
+}
+
+/* Unified heading styles: make headings consistent across the UI */
+h1,
+h2,
+h3,
+.panel-title {
+  color: var(--accent);
+  font-weight: 700;
+  margin: 0 0 8px;
+  letter-spacing: 0.2px;
+}
+
+h1 {
+  font-size: 20px;
+}
+h2 {
+  font-size: 18px;
+}
+h3 {
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Segoe UI, Roboto, Arial, sans-serif;
+}
+body {
+  margin: 0;
+  padding: 14px;
+  background: var(--bg);
+  color: #111;
+}
+header {
+  margin-bottom: 12px;
+}
+h1 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: var(--accent);
+}
+
+/* overall three column grid */
+main {
+  display: grid;
+  grid-template-columns: var(--left-width) minmax(520px, 1fr) 320px;
+  gap: 18px;
+  align-items: start;
+  padding: 8px 18px 24px;
+  grid-auto-rows: minmax(0, auto);
+}
+
+/* panels */
+.panel {
+  background: var(--panel);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* left column - fixed width and sticky panel */
+.left-col {
+  width: var(--left-width);
+}
+.left-col .panel {
+  position: sticky;
+  top: 16px;
+}
+.left-widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Ensure each details panel has a little breathing room at its bottom so
+  the action button doesn't sit too close to the next widget. */
+.panel-details .panel-body {
+  padding-bottom: 12px;
+}
+
+/* Add Customer form: two-column grid, inputs stack inside label */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.form-row label {
+  display: flex;
+  flex-direction: column;
+  margin: 6px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.form-row input,
+.form-row select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+.actions {
+  margin-top: 18px;
+}
+button {
+  padding: 8px 10px;
+  border: 0;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button.secondary {
+  background: #999;
+}
+button.small {
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+/* load test log */
+.log {
+  background: #111;
+  color: #0f0;
+  padding: 8px;
+  border-radius: 6px;
+  height: 90px;
+  overflow: auto;
+}
+
+/* middle column: customers list container */
+.middle-col .panel {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.controls-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.controls-row input[type="search"] {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+}
+.list {
+  flex: 1;
+  overflow: auto;
+  border-radius: 6px;
+  border: 1px solid #eee;
+  background: #fff;
+  padding: 6px;
+  max-height: calc(60vh);
+}
+/* Reduce the visual width of the search bar so it doesn't span the whole header */
+.controls-row input[type="search"] {
+  flex: 0 1 420px;
+  max-width: 420px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+}
+.list {
+  flex: 1;
+  overflow: auto;
+  border-radius: 6px;
+  border: 1px solid #eee;
+  background: #fff;
+  padding: 6px;
+  max-height: calc(60vh);
+  margin-bottom: 28px;
+}
+
+/* Header row: place actions beside the Customers heading */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+.header-actions .controls-row {
+  flex: 1;
+  margin-bottom: 0;
+}
+.header-buttons {
+  display: flex;
+  gap: 8px;
+}
+.header-buttons .small {
+  padding: 6px 8px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+.header-buttons .small:hover {
+  opacity: 0.95;
+}
+
+/* customers table - fixed layout to avoid pushing columns */
+.customers-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: fixed;
+}
+.customers-table thead th {
+  position: sticky;
+  top: 0;
+  background: #fafafa;
+  padding: 10px;
+  border-bottom: 1px solid #eaeaea;
+  text-align: left;
+  font-weight: 600;
+}
+.customers-table tbody td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #f1f1f1;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.customers-table .col-id {
+  width: 70px;
+  color: var(--muted);
+}
+.customers-table .col-actions {
+  width: 120px;
+  text-align: right;
+}
+.customers-table tbody tr:hover {
+  background: #fbfdff;
+}
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 0;
+  margin-left: 6px;
+  cursor: pointer;
+}
+.icon-invoice {
+  background: #0b79d0;
+  color: #fff;
+}
+.icon-delete {
+  background: #d9534f;
+  color: #fff;
+}
+
+/* right column: selected customer panel - sticky and scrollable internals */
+.right-col .panel {
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 140px);
+  overflow: hidden;
+}
+#selectedDetails {
+  flex: 1;
+  overflow: auto;
+}
+
+/* Ensure grid columns can shrink and allow internal scrolling (prevents children from forcing
+  the grid tracks to expand and causes overlap). */
+.left-col,
+.middle-col,
+.right-col {
+  min-height: 0;
+}
+.invoiceBox {
+  background: #fafafa;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px dashed #eee;
+  white-space: pre-wrap;
+  max-height: 40vh;
+  overflow: auto;
+}
+
+.invoiceBox {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 6px;
+}
+
+/* Extra gap between the invoice box and its action buttons so the layout breathes */
+.invoiceBox {
+  margin-bottom: 18px;
+}
+.invoiceBox + .actions {
+  margin-top: 14px;
+}
+
+/* Selected customer header and metadata styling to make displayed data obvious */
+#custInfo {
+  padding: 8px 6px 12px 6px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #ffffff, #fbfbfb);
+  margin-bottom: 8px;
+}
+#custInfo strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: #111;
+}
+#custInfo {
+  color: var(--muted);
+  font-size: 14px;
+}
+#custInfo br {
+  line-height: 1.6;
+}
+
+/* Invoice content - emphasize labels */
+.invoiceBox strong {
+  display: inline-block;
+  width: 110px;
+  font-weight: 700;
+}
+
+/* small screens: single column */
+@media (max-width: 1000px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+  .left-col,
+  .right-col {
+    width: auto;
+  }
+}
+
+/* medium screens: place right below */
+@media (min-width: 1001px) and (max-width: 1280px) {
+  main {
+    grid-template-columns: var(--left-width) minmax(360px, 1fr);
+  }
+  .right-col {
+    grid-column: 1/-1;
+  }
+}
+
+/* Defensive: ensure left column and its children can shrink and do not cause overflow
+   across different browser zoom / DPI settings. If the viewport becomes narrow,
+   make the Add Customer form stack vertically so inputs won't escape the panel. */
+.left-col {
+  min-width: 0;
+  overflow: hidden;
+}
+.left-col * {
+  min-width: 0;
+}
+
+/* At smaller overall widths, force form fields to stack vertically to avoid any
+   horizontal overflow from two-column layout. This is a safety net for narrow
+   left columns or high-DPI zoomed environments. */
+@media (max-width: 1100px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Strong overrides: force a stable, non-overflowing left panel layout.
+   This makes the Add Customer form always stack vertically and ensures the
+   left panel scrolls internally rather than pushing other panels. */
+.left-col {
+  width: 300px !important;
+  min-width: 0;
+}
+.left-col .panel {
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 80px);
+  overflow: auto;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr !important;
+  gap: 8px;
+}
+.form-row label {
+  width: 100%;
+}
+
+/* Make sure the middle panel keeps its flex layout and doesn't collapse */
+.middle-col .panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+.list {
+  flex: 1;
+  overflow: auto;
+}
+
+/* Tighten visual spacing and separators so panels look orderly */
+.panel {
+  border: 1px solid #eee;
+}
+
+/* ---------- Hard containment fixes (last-resort guards) ----------
+  These rules are intentionally strong (!important) to prevent
+  any browser DPI/zoom or long content from forcing form controls
+  out of the left column. They keep widths bounded and ensure
+  stacking of form fields inside the left panel. If further
+  adjustments are needed we can relax these later. */
+.left-col {
+  max-width: 320px !important;
+  width: 320px !important;
+  overflow: auto !important;
+  box-sizing: border-box;
+}
+.left-col .panel,
+.left-col .panel * {
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+.left-widgets {
+  width: 100% !important;
+}
+.left-widgets > * {
+  width: 100% !important;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr !important;
+  gap: 8px !important;
+}
+.form-row label {
+  min-width: 0 !important;
+}
+input,
+select,
+textarea,
+button {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+/* prevent unusually long words or pasted values from expanding an input beyond its container */
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="number"],
+select {
+  overflow: hidden;
+}
+
+/* Increase spacing between columns and between the customers list and Invoice */
+main {
+  gap: 40px !important; /* larger gutter so table sits visually centered */
+}
+/* Symmetric horizontal gutters: increase right padding on left column and
+   add matching left/right padding to the middle column so the table sits
+   with equal space on both sides. */
+.left-col {
+  padding-right: 18px !important;
+}
+.middle-col {
+  /* slightly less left padding, more right padding so the table looks centered */
+  padding-left: 12px !important;
+  padding-right: 36px !important;
+}
+.right-col {
+  padding-left: 18px !important;
+}
+/* Ensure a clear, larger gap between the customers list and the Invoice heading */
+.middle-col .list {
+  margin-bottom: 48px !important;
+  padding-right: 6px;
+}
+/* Make the Invoice heading and box sit further below the list */
+.middle-col h3 {
+  margin-top: 28px;
+  margin-bottom: 18px;
+}
+.invoiceBox {
+  margin-top: 24px;
+}
+
+/* header icon buttons (small emoji icons) */
+.header-buttons .icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: 0;
+  background: #0b79d0;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+}
+.header-buttons .icon-btn:hover {
+  opacity: 0.95;
+}
