@@ -1,98 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>Billing System — Frontend</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>Billing System — Frontend (Demo)</h1>
-        <p>Standalone HTML/JS UI that mirrors the C++ billing logic. No backend required.</p>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">BS</div>
+        <div>
+          <h1>Billing System — Frontend <span class="tag">(Demo)</span></h1>
+          <p class="subtitle">
+            Standalone HTML/JS UI that mirrors the C++ billing logic. No backend
+            required.
+          </p>
+        </div>
+      </div>
     </header>
 
     <main>
-        <section class="panel">
-            <h2>Add Customer</h2>
-            <form id="frmAddCustomer" onsubmit="return false;">
-                <label>Name <input id="custName" required></label>
-                <label>Email <input id="custEmail" required></label>
-                <label>Plan
+      <!-- Left column: two small widgets side-by-side -->
+      <section class="panel left-col">
+        <div class="left-widgets">
+          <div id="detailsAddCustomer" class="panel-details widget">
+            <div class="panel-header">
+              <h3 class="panel-title">Add Customer</h3>
+            </div>
+            <div class="panel-body">
+              <form
+                id="frmAddCustomer"
+                onsubmit="return false;"
+                class="compact-form"
+              >
+                <div class="form-row">
+                  <label>Name <input id="custName" required /></label>
+                  <label>Email <input id="custEmail" required /></label>
+                </div>
+
+                <div class="form-row">
+                  <label
+                    >Plan
                     <select id="custPlan">
-                        <option value="flat">Flat Rate</option>
-                        <option value="tiered">Tiered Pricing</option>
+                      <option value="flat">Flat Rate</option>
+                      <option value="tiered">Tiered Pricing</option>
                     </select>
-                </label>
-                <label id="rateRow">Flat rate (per unit) <input id="custRate" type="number" step="0.01" value="0.15"></label>
+                  </label>
+                  <label id="rateRow"
+                    >Flat rate (per unit)
+                    <input
+                      id="custRate"
+                      type="number"
+                      step="0.01"
+                      value="0.15"
+                    />
+                  </label>
+                </div>
+
                 <div class="actions">
-                    <button id="btnAddCustomer">Add Customer</button>
+                  <button id="btnAddCustomer" class="small">
+                    Add Customer
+                  </button>
                 </div>
-            </form>
-        </section>
-
-        <section class="panel">
-            <h2>Customers</h2>
-            <div id="customersList" class="list"></div>
-            <div class="actions small">
-                <button id="btnListAll">Refresh list</button>
-                <button id="btnExport">Export JSON</button>
-                <button id="btnImport">Import JSON</button>
-                <input id="fileImport" type="file" accept=".json" style="display:none">
+              </form>
             </div>
-        </section>
+          </div>
 
-        <section class="panel">
-            <h2>Selected Customer</h2>
-            <div id="selectedArea">
-                <p id="noSelection">No customer selected.</p>
-
-                <div id="selectedDetails" style="display:none;">
-                    <div id="custInfo"></div>
-
-                    <h3>Add Transaction</h3>
-                    <form id="frmAddTx" onsubmit="return false;">
-                        <label>Usage <input id="txUsage" type="number" step="0.01" required></label>
-                        <label>Description <input id="txDesc"></label>
-                        <div class="actions">
-                            <button id="btnAddTx">Add Transaction</button>
-                        </div>
-                    </form>
-
-                    <h3>Apply Discount</h3>
-                    <form id="frmAddDisc" onsubmit="return false;">
-                        <label>Percentage % <input id="discPct" type="number" step="0.1" value="5"></label>
-                        <label>Description <input id="discDesc"></label>
-                        <div class="actions">
-                            <button id="btnAddDisc">Apply Discount</button>
-                        </div>
-                    </form>
-
-                    <h3>Invoice</h3>
-                    <div class="invoiceBox" id="invoiceBox"></div>
-                    <div class="actions small">
-                        <button id="btnCalc">Calculate</button>
-                        <button id="btnPrint">Print Invoice</button>
-                    </div>
-                </div>
+          <div id="detailsLoadTest" class="panel-details widget">
+            <div class="panel-header">
+              <h3 class="panel-title">Load Test</h3>
             </div>
-        </section>
-
-        <section class="panel">
-            <h2>Load Test</h2>
-            <label>Customers <input id="loadCust" type="number" value="200"></label>
-            <label>Tx per customer <input id="loadTx" type="number" value="5"></label>
-            <div class="actions">
+            <div class="panel-body">
+              <label
+                >Customers <input id="loadCust" type="number" value="200"
+              /></label>
+              <label
+                >Tx per customer <input id="loadTx" type="number" value="5"
+              /></label>
+              <div class="actions">
                 <button id="btnRunLoad">Run Load Test</button>
+              </div>
+              <pre id="loadResult" class="log"></pre>
             </div>
-            <pre id="loadResult" class="log"></pre>
-        </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- Middle column: Customers table (approx 60%) -->
+      <section class="panel middle-col">
+        <div class="header-row">
+          <h2>Customers</h2>
+          <div class="header-actions">
+            <div class="controls-row">
+              <input
+                id="custSearch"
+                type="search"
+                placeholder="Search customers by name, email or ID"
+              />
+              <div id="custCount" class="muted">(0)</div>
+            </div>
+            <div class="actions header-buttons">
+              <button id="btnExport" class="icon-btn" title="Export (download)">
+                📤
+              </button>
+              <button
+                id="btnImport"
+                class="icon-btn"
+                title="Import (open file)"
+              >
+                📥
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="list">
+          <table
+            id="customersList"
+            class="customers-table"
+            aria-describedby="custCount"
+          ></table>
+        </div>
+        <input
+          id="fileImport"
+          type="file"
+          accept=".json"
+          style="display: none"
+        />
+
+        <!-- Invoice moved here so it sits below the customers list and spans the middle column -->
+        <h3>Invoice</h3>
+        <div class="invoiceBox panel" id="invoiceBox"></div>
+        <div class="actions small">
+          <button id="btnCalc">Calculate</button>
+          <button id="btnPrint">Print Invoice</button>
+        </div>
+      </section>
+
+      <!-- Right column: selected customer (transactions + invoice) -->
+      <section class="panel right-col">
+        <h2>Selected Customer</h2>
+        <div id="selectedArea">
+          <p id="noSelection">No customer selected.</p>
+
+          <div id="selectedDetails" style="display: none">
+            <div id="custInfo" class="cust-header"></div>
+
+            <div class="panel-row">
+              <div class="panel-card">
+                <h3>Add Transaction</h3>
+                <form id="frmAddTx" onsubmit="return false;">
+                  <label
+                    >Usage
+                    <input id="txUsage" type="number" step="0.01" required
+                  /></label>
+                  <label>Description <input id="txDesc" /></label>
+                  <div class="actions">
+                    <button id="btnAddTx">Add Transaction</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="panel-card">
+                <h3>Apply Discount</h3>
+                <form id="frmAddDisc" onsubmit="return false;">
+                  <label
+                    >Percentage %
+                    <input id="discPct" type="number" step="0.1" value="5"
+                  /></label>
+                  <label>Description <input id="discDesc" /></label>
+                  <div class="actions">
+                    <button id="btnAddDisc">Apply Discount</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Invoice moved to middle column -->
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer>
-        <small>Static demo — can import/export JSON to integrate with C++ later.</small>
+      <small
+        >Static demo — can import/export JSON to integrate with C++
+        later.</small
+      >
     </footer>
 
     <script src="app.js"></script>
-</body>
+  </body>
 </html>
